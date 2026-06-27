@@ -40,6 +40,8 @@ The complete top-level hardware module dependency layout and synthesis module co
 
 High-speed serial video buses require low jitter parameters and precise phase synchronization tracking profiles. The system configures a native **Xilinx Clocking Wizard IP (`clk_wiz_0`)** featuring an internal Mixed-Mode Clock Manager (MMCM) to synthesize the 100 MHz onboard differential oscillator source into two asynchronous operational clock domains[cite: 19, 195]:
 
+|image6|
+
 1. **Pixel Clock (`pix_clk` - 25.2 MHz)**: Explicitly tuned to standard VESA parameters to drive a 640x480 active scan grid at a 60Hz refresh rate cycle[cite: 14, 19].
 2. **Serial Transmission Clock (`ser_clk` - 126.0 MHz)**: Runs at exactly **5x** the frequency of the pixel clock tracking baseline[cite: 19]. This clock drives the parallel-to-serial Double Data Rate (DDR) output serializers (`OSERDES`) across the differential physical transmission lanes[cite: 18].
 
@@ -187,7 +189,7 @@ Verilog Source Code:
 
 |image5|
 
-The combination logic,乘积项 multiplier components, and multiplexer networks within the pattern generation block are shown above.
+The combination logic, multiplier components, and multiplexer networks within the pattern generation block are shown above.
 
 2.2.3 Physical Layer Pipeline Top Module (`hdmi_top.v`)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -260,10 +262,6 @@ Verilog Source Code:
        );
    endmodule
 
-|image6|
-
-The architectural interconnect scheme highlighting structural register boundaries and inter-clock boundaries routing fields is provided above.
-
 2.3 System Schematic (Comprehensive Overview)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -275,8 +273,6 @@ III. Pipeline Synchronization Control
 -------------------------------------
 
 While video frame processing relies heavily on structural coordinate counters, the macro state lifecycle transitions remain governed by the MMCM clock synchronization loop lock state and physical reset parameters[cite: 219]. The state flow logic tracks several primary milestones:
-
-|image8|
 
 ============ ============== ===================================
 System State Operating Mode Functional Description
@@ -367,8 +363,6 @@ The simulation module drives the 100MHz onboard clock generator source and monit
 
 The behavioral waveform tracing log generated via ModelSim/Vivado Simulator is pictured above[cite: 284]. Following initialization, the digital clock conditioning primitives confirm a lock flag state, immediately activating parallel sync matrix calculations. Line frames match standard VESA active video, front porch, back porch, and blanking window segments with absolute coordinate alignment[cite: 291].
 
-|image10|
-
 Isolating the data profile segments during line transitions confirms consistent DC balance encoding and structural signal parity tracking across high-speed multi-clock data transformations[cite: 284].
 
 V. Physical Synthesis & Layout Realization
@@ -387,15 +381,13 @@ The display generator design successfully achieves high-frequency multi-clock sy
 
 
 .. Structural Resource File Links (Modify directory names inside target assets folders)
-.. |image0| image:: assets/von.png
-.. |image1| image:: assets/CPU-comp-right.png
-.. |image2| image:: assets/rom.png
-.. |image3| image:: assets/ram.png
-.. |image4| image:: assets/pc.png
-.. |image5| image:: assets/accum.png
-.. |image6| image:: assets/mux.png
-.. |image7| image:: assets/schematic.png
-.. |image8| image:: assets/fsm.png
-.. |image9| image:: assets/wave.png
-.. |image10| image:: assets/reg1.png
-.. |image11| image:: assets/RTL_Viewer_s.png
+.. |image0| image:: assets/interface.png
+.. |image1| image:: assets/architecture.jpg
+.. |image2| image:: assets/ip_clk.png
+.. |image6| image:: assets/clockwiz.png
+.. |image3| image:: assets/heirarchy.png
+.. |image4| image:: assets/architecture.jpg
+.. |image5| image:: assets/combinational.jpg
+.. |image7| image:: assets/architecture.jpg
+.. |image9| image:: assets/simulation.png
+.. |image11| image:: assets/implementation.png
